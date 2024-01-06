@@ -3,6 +3,7 @@ using System.Collections;
 using MoreMountains.Tools;
 using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 namespace MoreMountains.CorgiEngine
 {
@@ -49,6 +50,7 @@ namespace MoreMountains.CorgiEngine
         
         [SerializeField] private float recoilSpreadDuration;
         [SerializeField] private float recoilSpreadAngle;
+        [SerializeField] private float recoilCursorUpAngle;
         private bool isDuringAimSpread=false;
         private float aimSpreadDuration;
 
@@ -82,7 +84,6 @@ namespace MoreMountains.CorgiEngine
             base.LateUpdate();
             //탄 퍼짐에 의한 shoot angle을 결정해주자.
             DetermineShootAngle();
-            Debug.Log(spreadElapsedTime);
         }
 
         protected virtual void DetermineShootAngle(){
@@ -134,6 +135,8 @@ namespace MoreMountains.CorgiEngine
             base.WeaponUse();
             //반동에 의한 탄퍼짐을 활성화 시킨다.
             StartAimSpread(recoilSpreadAngle,recoilSpreadDuration);
+            MouseUpByRecoil();
+
 
             DetermineSpawnPosition();
 
@@ -143,6 +146,17 @@ namespace MoreMountains.CorgiEngine
             }
         }
 
+        protected virtual void MouseUpByRecoil()
+        {
+            Vector2 nowMousePosition = Input.mousePosition;
+            //현재 마우스와 Weapon 사이 x좌표 차
+            float xMouseToWeapon = nowMousePosition.x - transform.position.x;
+            float angleByCursorAndGround = Mathf.Atan(nowMousePosition.y / nowMousePosition.x);
+            //Mathf.Tan은 라디안 기준으로 각을 입력받기에, 각을 라디안으로 환산 시켜서 대입해줌.
+            float deltaRecoildMouseMove = xMouseToWeapon * (Mathf.Tan(angleByCursorAndGround + recoilCursorUpAngle * MathF.PI / 180) - Mathf.Tan(angleByCursorAndGround));
+            //커서가 목표한 반동각도만큼 상승.
+            Mouse.current.WarpCursorPosition(nowMousePosition + new Vector2(0, deltaRecoildMouseMove));
+        }
         /// <summary>
         /// Spawns a new object and positions/resizes it
         /// </summary>

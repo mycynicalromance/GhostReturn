@@ -4851,7 +4851,7 @@ MonoBehaviour:
   IgnoreDownWhenGrounded: 0
   Reticle: {fileID: 1000010525066036, guid: fdff91f9c641e4bc4ae800f161c07e1f, type: 3}
   DisplayReticle: 1
-  ReticleDistance: 0
+  ReticleDistance: 10
   ReticleZPosition: 0
   ReticleAtMousePosition: 1
   RotateReticle: 1
@@ -4861,7 +4861,7 @@ MonoBehaviour:
   recoilDegree: 0
   recoilDuration: 0
   recoilRotateSpeed: 0
-  recoilCursorDegree: 1
+  recoilCursorDegree: 3
   isFirstProcessingRecoil: 0
 --- !u!114 &2098833069558580639
 MonoBehaviour:
@@ -4991,6 +4991,7 @@ MonoBehaviour:
   SpawnPosition: {x: -71.76, y: -1.38, z: 0}
   recoilSpreadDuration: 1
   recoilSpreadAngle: 20
+  recoilCursorUpAngle: 1
 --- !u!1 &1000012097833382
 GameObject:
   m_ObjectHideFlags: 0
