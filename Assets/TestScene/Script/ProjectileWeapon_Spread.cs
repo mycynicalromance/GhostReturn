@@ -47,7 +47,8 @@ namespace MoreMountains.CorgiEngine
         protected bool _poolInitialized = false;
 
         //반동에 의한 탄퍼짐 변수들
-        
+
+        public AnimationCurve recoilSpreadAngleAnimationCurve;
         [SerializeField] private float recoilSpreadDuration;
         [SerializeField] private float recoilSpreadAngle;
         [SerializeField] private float recoilCursorUpAngle;
@@ -94,8 +95,8 @@ namespace MoreMountains.CorgiEngine
 
             spreadElapsedTime+=Time.deltaTime;
 
-            //spreadTimeParameter는, 경과 시간을 나타내는 0~1 사이 지표로 탄퍼짐 시작한 직후는 0, 탄퍼짐 종료시에는 1이다. 
-            float spreadTimeParameter = spreadElapsedTime / aimSpreadDuration;
+            //normalizedSpreadElapsedTime는, 경과 시간을 나타내는 0~1 사이 지표로 탄퍼짐 시작한 직후는 0, 탄퍼짐 종료시에는 1이다. 
+            float normalizedSpreadElapsedTime = spreadElapsedTime / aimSpreadDuration;
 
 
             //탄퍼짐 발생 이후 경과시간이 총 duration을 넘으면, 탄퍼짐 활성을 종료한다.
@@ -107,7 +108,8 @@ namespace MoreMountains.CorgiEngine
             }
             else {
                 //탄퍼짐 중이라면, 탄퍼짐 각도를 경과시간에 맞춰 조정한다.
-                Spread.z = (1-spreadTimeParameter) * recoilSpreadAngle;
+                float normalizedSpreadAngle = recoilSpreadAngleAnimationCurve.Evaluate(normalizedSpreadElapsedTime);
+                Spread.z = Mathf.Lerp(0, nowSpreadAngle, normalizedSpreadAngle);
             }
 
 
@@ -136,8 +138,6 @@ namespace MoreMountains.CorgiEngine
             //반동에 의한 탄퍼짐을 활성화 시킨다.
             StartAimSpread(recoilSpreadAngle,recoilSpreadDuration);
             MouseUpByRecoil();
-
-
             DetermineSpawnPosition();
 
             for (int i = 0; i < ProjectilesPerShot; i++)
