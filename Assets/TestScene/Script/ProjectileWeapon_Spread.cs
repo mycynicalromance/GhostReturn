@@ -151,9 +151,9 @@ namespace MoreMountains.CorgiEngine
             Vector2 nowMousePosition = Input.mousePosition;
             //현재 마우스와 Weapon 사이 x좌표 차
             float xMouseToWeapon = nowMousePosition.x - transform.position.x;
-            float angleByCursorAndGround = Mathf.Atan(nowMousePosition.y / nowMousePosition.x);
+            float angleByCursorToWeapon = Mathf.Atan(nowMousePosition.y / nowMousePosition.x);
             //Mathf.Tan은 라디안 기준으로 각을 입력받기에, 각을 라디안으로 환산 시켜서 대입해줌.
-            float deltaRecoildMouseMove = xMouseToWeapon * (Mathf.Tan(angleByCursorAndGround + recoilCursorUpAngle * MathF.PI / 180) - Mathf.Tan(angleByCursorAndGround));
+            float deltaRecoildMouseMove = xMouseToWeapon * (Mathf.Tan(angleByCursorToWeapon + recoilCursorUpAngle * MathF.PI / 180) - Mathf.Tan(angleByCursorToWeapon));
             //커서가 목표한 반동각도만큼 상승.
             Mouse.current.WarpCursorPosition(nowMousePosition + new Vector2(0, deltaRecoildMouseMove));
         }

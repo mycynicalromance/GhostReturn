@@ -406,7 +406,7 @@ namespace MoreMountains.CorgiEngine
             float xMouseToWeapon = nowMousePosition.x-transform.position.x;
             float angleByCursorAndGround = Mathf.Atan(nowMousePosition.y/nowMousePosition.x); 
             float deltaRecoildMouseMove = xMouseToWeapon*(Mathf.Tan(angleByCursorAndGround+recoilCursorDegree*MathF.PI/180)-Mathf.Tan(angleByCursorAndGround));
-            
+            //커서가 목표한 반동각도만큼 상승.
             Mouse.current.WarpCursorPosition(nowMousePosition+new Vector2(0,deltaRecoildMouseMove));
         }
 
